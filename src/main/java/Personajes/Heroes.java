@@ -27,7 +27,7 @@ public abstract class Heroes extends Personaje {
 		} else if (heroeSeleccionado.equalsIgnoreCase("Hobbit")) {
 			return getTIPOS_DE_HEROES()[2];
 		} else {
-			throw new IllegalArgumentException("Tipo de héroe no válido: " + heroeSeleccionado + "\n" + "Recuerda los tipos de heroes a elegir son: " + tipoPersonajes.especiesValidasBestias(0));
+			throw new IllegalArgumentException("Tipo de héroe no válido: " + heroeSeleccionado + "\n" + "Recuerda los tipos de heroes a elegir son: " + tipoPersonajes.especiesValidas(0));
 		}
 	}
 

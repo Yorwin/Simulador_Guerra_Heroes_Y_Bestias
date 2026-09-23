@@ -3,15 +3,34 @@ package Tipos;
 import Personajes.Bestia;
 import Personajes.Personaje;
 
+/**
+ * Representa las diferentes especies de personajes y el efecto que cada una
+ * aplica sobre sus características de combate.
+ */
 public enum tipoPersonajes implements Afectable {
 	HUMANOS("Humano", 0), ELFOS("Elfo", 10), HOBBITS("Hobbit", -5), ORCOS("Orco", 10), TRASGOS("Trasgo", 0);
 
 	private final String ESPECIE;
 	private final int EFECTO;
 
+	/**
+	 * Constructor de las especies disponibles para los personajes.
+	 *
+	 * @param especie nombre de la especie.
+	 * @param efecto  modificador de ataque que aplica la especie.
+	 */
 	tipoPersonajes(String especie, int efecto) {
 		this.ESPECIE = especie;
 		this.EFECTO = efecto;
+	}
+
+	/**
+	 * Obtiene la especie del personaje.
+	 * 
+	 * @return la especie del personaje.
+	 */
+	public String getESPECIE() {
+		return ESPECIE;
 	}
 
 	/**
@@ -40,7 +59,6 @@ public enum tipoPersonajes implements Afectable {
 	 * @return el daño final resultante tras aplicar las reglas de afectación según
 	 *         la especie
 	 */
-
 	@Override
 	public int aplicacionAfectacion(Personaje enemigo, int danoBase) {
 		int danoFinal = danoBase;
@@ -59,7 +77,20 @@ public enum tipoPersonajes implements Afectable {
 		return danoFinal;
 	}
 
-	public static String especiesValidasBestias(int especieDeseada) {
+	/**
+	 * Obtiene las especies válidas en función del tipo de ejército seleccionado.
+	 * <p>
+	 * Si se seleccionan héroes ({@code 0}), devuelve las especies {@code HUMANOS},
+	 * {@code ELFOS} y {@code HOBBITS}. Si se seleccionan bestias ({@code 1}),
+	 * devuelve las especies {@code ORCOS} y {@code TRASGOS}.
+	 *
+	 * @param especieDeseada valor que identifica el tipo de ejército: {@code 0}
+	 *                       para héroes y {@code 1} para bestias.
+	 * @return una cadena con las especies válidas separadas por comas.
+	 * @throws IllegalArgumentException si {@code especieDeseada} no es {@code 0} ni
+	 *                                  {@code 1}.
+	 */
+	public static String especiesValidas(int especieDeseada) {
 		if (especieDeseada == 0) {
 			return String.join(", ", HUMANOS.ESPECIE, ELFOS.ESPECIE, HOBBITS.ESPECIE);
 		} else if (especieDeseada == 1) {
@@ -69,5 +100,4 @@ public enum tipoPersonajes implements Afectable {
 					"No has seleccionado la especie correctamente: 0 para Heroes, 1 para Bestias");
 		}
 	}
-
 }

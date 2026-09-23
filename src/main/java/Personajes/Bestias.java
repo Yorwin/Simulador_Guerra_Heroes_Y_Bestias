@@ -25,7 +25,7 @@ public abstract class Bestias extends Personaje {
 			return getTIPOS_DE_BESTIAS()[1];
 		}  else {
 			throw new IllegalArgumentException("Tipo de bestia no válido: " + bestiaSeleccionada + "\n"
-					+ "Recuerda los tipos de bestia a elegir son: " + tipoPersonajes.especiesValidasBestias(1));
+					+ "Recuerda los tipos de bestia a elegir son: " + tipoPersonajes.especiesValidas(1));
 		}
 	}
 

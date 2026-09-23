@@ -1,13 +1,12 @@
 package Guerra;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import Ejercito.Ejercito;
 import Personajes.Bestia;
 import Personajes.Heroe;
+import Tipos.tipoPersonajes;
 
 /**
  * Gestiona una guerra entre un ejército de héroes y un ejército de bestias.
@@ -76,7 +75,6 @@ public class Guerra {
 			int indiceCombate = 0;
 
 			while (indiceCombate < totalInteracciones) {
-				System.out.println(totalInteracciones);
 				Heroe peleador1 = ejercitoHeroes.getReclutas().get(indiceCombate);
 				Bestia peleador2 = ejercitoBestias.getReclutas().get(indiceCombate);
 
@@ -94,9 +92,11 @@ public class Guerra {
 				peleador1.interpretarDano(turnoBestia);
 
 				// Registrar Combate
-				Combate combate = new Combate(peleador1.getNombre(), peleador2.getNombre(), nivelVidaAntesHeroe,
+				Combate combate = new Combate(peleador1.getNombre(), peleador1.getTipoPersonaje(),
+						peleador2.getNombre(), peleador2.getTipoPersonaje(), nivelVidaAntesHeroe,
 						peleador1.getPuntosDeVida(), peleador1.getNivelResistencia(), nivelVidaAntesBestia,
-						peleador2.getPuntosDeVida(), peleador2.getNivelResistencia(), turnoHeroe, turnoBestia);
+						peleador2.getPuntosDeVida(), peleador2.getNivelResistencia(), turnoHeroe, turnoBestia,
+						ejercitoHeroes.length(), ejercitoBestias.length());
 
 				registroCombates.registrarCombate(turno, combate);
 				indiceCombate++;
@@ -110,7 +110,10 @@ public class Guerra {
 			this.turno++;
 		} while (ejercitoHeroes.length() > 0 && ejercitoBestias.length() > 0);
 
-		registroCombates.setGuerraFinalizada(true);
+		synchronized (registroCombates) {
+			registroCombates.setGuerraFinalizada(true);
+			registroCombates.notify();
+		}
 	}
 
 	/**
@@ -153,8 +156,14 @@ public class Guerra {
 		/** Nombre del héroe que participa en el combate. */
 		private String heroe;
 
+		/** Especie del héroe que participa en el combate */
+		private tipoPersonajes especieHeroe;
+
 		/** Nombre de la bestia que participa en el combate. */
 		private String bestia;
+
+		/** Especie de la bestia que participa en el combate */
+		private tipoPersonajes especieBestia;
 
 		/** Puntos de vida del héroe antes del combate. */
 		private int vidaHeroeAntes;
@@ -180,6 +189,12 @@ public class Guerra {
 		/** Daño infligido por la bestia durante el combate. */
 		private int danoBestia;
 
+		/** Daño infligido por la bestia durante el combate. */
+		private int tamannoEjercitoHeroes;
+
+		/** Daño infligido por la bestia durante el combate. */
+		private int tamannoEjercitoBestias;
+
 		/**
 		 * Crea un registro con la información de un combate.
 		 *
@@ -192,13 +207,17 @@ public class Guerra {
 		 * @param danoHeroe         daño infligido por el héroe.
 		 * @param danoBestia        daño infligido por la bestia.
 		 */
-		public Combate(String heroe, String bestia, int vidaHeroeAntes, int vidaHeroeDespues, int armaduraHeroe,
-				int vidaBestiaAntes, int vidaBestiaDespues, int armaduraBestia, int danoHeroe, int danoBestia) {
+		public Combate(String heroe, tipoPersonajes especieHeroe, String bestia, tipoPersonajes especieBestia,
+				int vidaHeroeAntes, int vidaHeroeDespues, int armaduraHeroe, int vidaBestiaAntes, int vidaBestiaDespues,
+				int armaduraBestia, int danoHeroe, int danoBestia, int tamannoEjercitoHeroes,
+				int tamannoEjercitoBestias) {
 
 			super();
 
 			this.heroe = heroe;
+			this.especieHeroe = especieHeroe;
 			this.bestia = bestia;
+			this.especieBestia = especieBestia;
 			this.vidaHeroeAntes = vidaHeroeAntes;
 			this.vidaHeroeDespues = vidaHeroeDespues;
 			this.armaduraHeroe = armaduraHeroe;
@@ -207,6 +226,8 @@ public class Guerra {
 			this.armaduraBestia = armaduraBestia;
 			this.danoHeroe = danoHeroe;
 			this.danoBestia = danoBestia;
+			this.tamannoEjercitoHeroes = tamannoEjercitoHeroes;
+			this.tamannoEjercitoBestias = tamannoEjercitoBestias;
 		}
 
 		/**
@@ -219,12 +240,30 @@ public class Guerra {
 		}
 
 		/**
+		 * Obtiene la especie del héroe participante.
+		 *
+		 * @return e del héroe.
+		 */
+		public tipoPersonajes getEspecieHeroe() {
+			return especieHeroe;
+		}
+
+		/**
 		 * Obtiene el nombre de la bestia participante.
 		 *
 		 * @return nombre de la bestia.
 		 */
 		public String getBestia() {
 			return bestia;
+		}
+
+		/**
+		 * Obtiene la especie de la bestia participante.
+		 *
+		 * @return nombre de la bestia.
+		 */
+		public tipoPersonajes getEspecieBestia() {
+			return especieBestia;
 		}
 
 		/**
@@ -298,5 +337,24 @@ public class Guerra {
 		public int getDanoBestia() {
 			return danoBestia;
 		}
+
+		/**
+		 * Devuelve el tamaño actual del ejército de héroes.
+		 *
+		 * @return número de héroes que forman el ejército.
+		 */
+		public int getTamannoEjercitoHeroes() {
+			return tamannoEjercitoHeroes;
+		}
+
+		/**
+		 * Devuelve el tamaño actual del ejército de bestias.
+		 *
+		 * @return número de bestias que forman el ejército.
+		 */
+		public int getTamannoEjercitoBestias() {
+			return tamannoEjercitoBestias;
+		}
+
 	}
 }

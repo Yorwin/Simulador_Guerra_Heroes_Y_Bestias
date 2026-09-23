@@ -63,7 +63,7 @@ public class Main {
 
 		Bestia bestia1;
 		try {
-			bestia1 = (Bestia) new Personaje.Builder().nombre("Mer").puntosDeVida(100).nivelResistencia(35)
+			bestia1 = (Bestia) new Personaje.Builder().nombre("Mer").puntosDeVida(150).nivelResistencia(35)
 					.tipoPersonaje("Orco").tipoRecluta(tipoEjercito.BESTIAS).build();
 			ejercitoBestias.anadirRecluta(bestia1);
 		} catch (Exception e) {
@@ -105,12 +105,12 @@ public class Main {
 		// ----------------------------------------------------
 		// Prueba Guerra
 		// ----------------------------------------------------
-		
+
 		RegistroCombates registro = new RegistroCombates();
-		
+
 		ExecutorService gestorProcesos = Executors.newSingleThreadExecutor();
-		Future<ArrayList<String>> resultado = gestorProcesos.submit(new InterpretadorGuerra(registro)); 
-				
+		Future<ArrayList<String>> resultado = gestorProcesos.submit(new InterpretadorGuerra(registro));
+
 		Guerra guerraPrueba = new Guerra(ejercitoHeroes, ejercitoBestias, registro);
 		guerraPrueba.start();
 
@@ -118,24 +118,26 @@ public class Main {
 
 		System.out.println("Rondas registradas: ");
 
-		/* registroCombates.forEach((ronda, combates) -> {
-			System.out.println("=== Ronda " + ronda + " ===");
-			combates.forEach(c -> System.out.println(c.getHeroe() + " (vida despues: " + c.getVidaHeroeDespues()
-					+ ") vs " + c.getBestia() + " (vida despues: " + c.getVidaBestiaDespues() + ")"));
-		}); */
-		
+		/*
+		 * registroCombates.forEach((ronda, combates) -> {
+		 * System.out.println("=== Ronda " + ronda + " ==="); combates.forEach(c ->
+		 * System.out.println(c.getHeroe() + " (vida despues: " +
+		 * c.getVidaHeroeDespues() + ") vs " + c.getBestia() + " (vida despues: " +
+		 * c.getVidaBestiaDespues() + ")")); });
+		 */
+
 		String narracion = "";
-		
+
 		try {
 			narracion = resultado.get().toString();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-		}	
-		
+		}
+
 		System.out.println(narracion);
-		
+
 		gestorProcesos.shutdown();
 	}
 }
