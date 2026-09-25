@@ -6,7 +6,7 @@ import java.util.Map;
 import Ejercito.Ejercito;
 import Personajes.Bestia;
 import Personajes.Heroe;
-import Tipos.tipoPersonajes;
+import TiposYInterfaces.tipoPersonajes;
 
 /**
  * Gestiona una guerra entre un ejército de héroes y un ejército de bestias.
@@ -42,8 +42,9 @@ public class Guerra {
 	/**
 	 * Crea una nueva guerra entre un ejército de héroes y un ejército de bestias.
 	 *
-	 * @param ejercitoHeroes  ejército de héroes que participará en la guerra.
-	 * @param ejercitoBestias ejército de bestias que participará en la guerra.
+	 * @param ejercitoHeroes   ejército de héroes que participará en la guerra.
+	 * @param ejercitoBestias  ejército de bestias que participará en la guerra.
+	 * @param registroCombates registro de combates donde se guardara cada combate.
 	 */
 	public Guerra(Ejercito<Heroe> ejercitoHeroes, Ejercito<Bestia> ejercitoBestias, RegistroCombates registroCombates) {
 		this.ejercitoHeroes = ejercitoHeroes.copiar();
@@ -198,14 +199,23 @@ public class Guerra {
 		/**
 		 * Crea un registro con la información de un combate.
 		 *
-		 * @param heroe             nombre del héroe participante.
-		 * @param bestia            nombre de la bestia participante.
-		 * @param vidaHeroeAntes    puntos de vida del héroe antes del combate.
-		 * @param vidaHeroeDespues  puntos de vida del héroe después del combate.
-		 * @param vidaBestiaAntes   puntos de vida de la bestia antes del combate.
-		 * @param vidaBestiaDespues puntos de vida de la bestia después del combate.
-		 * @param danoHeroe         daño infligido por el héroe.
-		 * @param danoBestia        daño infligido por la bestia.
+		 * @param heroe                  nombre del héroe participante.
+		 * @param especieHeroe           tipo o especie a la que pertenece el héroe.
+		 * @param bestia                 nombre de la bestia participante.
+		 * @param especieBestia          tipo o especie a la que pertenece la bestia.
+		 * @param vidaHeroeAntes         puntos de vida del héroe antes del combate.
+		 * @param vidaHeroeDespues       puntos de vida del héroe después del combate.
+		 * @param armaduraHeroe          puntos de armadura del héroe.
+		 * @param vidaBestiaAntes        puntos de vida de la bestia antes del combate.
+		 * @param vidaBestiaDespues      puntos de vida de la bestia después del
+		 *                               combate.
+		 * @param armaduraBestia         puntos de armadura de la bestia.
+		 * @param danoHeroe              daño infligido por el héroe.
+		 * @param danoBestia             daño infligido por la bestia.
+		 * @param tamannoEjercitoHeroes  número de integrantes restantes en el ejército
+		 *                               de héroes.
+		 * @param tamannoEjercitoBestias número de integrantes restantes en el ejército
+		 *                               de bestias.
 		 */
 		public Combate(String heroe, tipoPersonajes especieHeroe, String bestia, tipoPersonajes especieBestia,
 				int vidaHeroeAntes, int vidaHeroeDespues, int armaduraHeroe, int vidaBestiaAntes, int vidaBestiaDespues,

@@ -1,25 +1,24 @@
 package Ejercito;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-
-import Tipos.tipoEjercito;
-import Personajes.Personaje;
 
 /**
  * Representa un ejercito compuesto por un conjunto de reclutas de tipo genérico
  * {@code T}.
  * <p>
- * Cada ejercito tiene un {@link Tipos.tipoEjercito} asociado, y solo se permite
- * añadir reclutas cuyo tipo de ejercito coincida con el del ejercito actual.
+ * Cada ejercito tiene un {@link TiposYInterfaces.tipoEjercito} asociado, y solo
+ * se permite añadir reclutas cuyo tipo de ejercito coincida con el del ejercito
+ * actual.
  *
  * @param <T> tipo de los reclutas que forman parte del ejercito (normalmente
  *            una subclase o implementación de {@link Personajes.Personaje})
  */
-
 public class Ejercito<T> {
-
+	
+	/**
+	 * Logger para registrar eventos y advertencias de la clase Ejercito.
+	 */
 	private static final Logger LOGGER = Logger.getLogger(Ejercito.class.getName());
 
 	/** Lista de reclutas que forman parte del ejercito. */
@@ -27,11 +26,7 @@ public class Ejercito<T> {
 
 	/**
 	 * Crea un nuevo ejercito con la lista de reclutas y el tipo indicados.
-	 *
-	 * @param reclutas     lista inicial de reclutas del ejercito
-	 * @param tipoEjercito tipo de ejercito que se va a crear
 	 */
-
 	public Ejercito() {
 		this.reclutas = new ArrayList<T>();
 	}
@@ -59,9 +54,14 @@ public class Ejercito<T> {
 	 * con el tipo de este ejercito.
 	 *
 	 * @param recluta recluta que se desea añadir
-	 * @throws Exception si el recluta no pertenece al mismo tipo de ejercito
+	 * @throws IllegalArgumentException si el recluta es nulo
 	 */
 	public void anadirRecluta(T recluta) {
+		if (recluta == null) {
+			LOGGER.warning("Intento de añadir un recluta nulo al ejército.");
+			throw new IllegalArgumentException("El recluta no puede ser nulo.");
+		}
+
 		reclutas.add(recluta);
 	}
 
@@ -71,7 +71,16 @@ public class Ejercito<T> {
 	 * @param recluta recluta que se desea retirar
 	 */
 	public void retirarRecluta(T recluta) {
-		reclutas.remove(recluta);
+		try {
+			if (recluta == null) {
+				LOGGER.warning("Intento de remover un recluta nulo del ejército.");
+				return;
+			}
+
+			reclutas.remove(recluta);
+		} catch (Exception e) {
+			System.err.println("Ha ocurrido un error al intentar remover un recluta");
+		}
 	}
 
 	/**
@@ -84,13 +93,20 @@ public class Ejercito<T> {
 	 *                                   rango válido de la lista de reclutas
 	 */
 	public void cambiarOrden(int indiceActual, int nuevaPosicion) {
-		if (indiceActual < 0 || indiceActual >= reclutas.size() || nuevaPosicion < 0
-				|| nuevaPosicion >= reclutas.size()) {
-			LOGGER.warning("Índice fuera de rango al intentar cambiar el orden de un recluta");
-			return;
+		try {
+			if (indiceActual < 0 || indiceActual >= reclutas.size() || nuevaPosicion < 0
+					|| nuevaPosicion >= reclutas.size()) {
+				throw new IndexOutOfBoundsException("Se ha intentado acceder a un valor de la lista que no existe");
+			}
+			T personaje = reclutas.remove(indiceActual);
+			reclutas.add(nuevaPosicion, personaje);
+
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.err.println("Error: El índice solicitado no existe en el arreglo.");
+			LOGGER.warning("Intento de acceso a índice fuera de rango: " + e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		T personaje = reclutas.remove(indiceActual);
-		reclutas.add(nuevaPosicion, personaje);
 	}
 
 	/**
@@ -102,6 +118,15 @@ public class Ejercito<T> {
 		return reclutas.size();
 	}
 
+	/**
+	 * Crea y devuelve una copia superficial (shallow copy) de este ejército.
+	 * <p>
+	 * El nuevo ejército contendrá las mismas referencias a las unidades o reclutas
+	 * que el ejército original, conservando su orden.
+	 * </p>
+	 *
+	 * @return una nueva instancia de {@code Ejercito<T>} con los mismos reclutas.
+	 */
 	public Ejercito<T> copiar() {
 		Ejercito<T> copiaEjercito = new Ejercito<T>();
 		ArrayList<T> reclutasEjercitoActual = getReclutas();

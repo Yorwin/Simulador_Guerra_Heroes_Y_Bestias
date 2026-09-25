@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 import org.apache.commons.text.StringSubstitutor;
 
 import Guerra.Guerra.Combate;
-import Tipos.tipoEjercito;
-import Tipos.tipoPersonajes;
+import TiposYInterfaces.tipoEjercito;
+import TiposYInterfaces.tipoPersonajes;
 
 /**
  * Traduce el registro "en bruto" de combates de una {@link Guerra} en mensajes
@@ -205,8 +205,6 @@ public class InterpretadorGuerra implements Callable<ArrayList<String>> {
 				}
 			}
 		}
-
-		mensajeFinal.append("\n");
 
 		String textoTerminado = mensajeFinal.toString();
 		listaCombates.add(textoTerminado);

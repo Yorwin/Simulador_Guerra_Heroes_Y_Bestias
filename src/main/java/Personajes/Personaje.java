@@ -1,7 +1,12 @@
 package Personajes;
 
-import Tipos.tipoEjercito;
+import TiposYInterfaces.tipoEjercito;
 
+/**
+ * Clase abstracta que representa a un personaje/recluta dentro del juego.
+ * Proporciona la estructura base y el patrón Builder para la creación de
+ * personajes.
+ */
 public abstract class Personaje {
 
 	/**
@@ -29,6 +34,11 @@ public abstract class Personaje {
 	 */
 	protected final tipoEjercito tipoRecluta;
 
+	/**
+	 * Constructor protegido que inicializa un personaje utilizando su Builder.
+	 * 
+	 * @param builder Instancia del Builder con los datos del personaje a construir.
+	 */
 	public Personaje(Builder builder) {
 		this.nombre = builder.nombre;
 		this.puntosDeVida = builder.puntosDeVida;
@@ -36,38 +46,65 @@ public abstract class Personaje {
 		this.tipoRecluta = builder.tipoRecluta;
 	}
 
+	/**
+	 * Obtiene el nombre del recluta.
+	 * 
+	 * @return Nombre del recluta.
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * Obtiene los puntos de vida actuales del recluta.
+	 * 
+	 * @return Puntos de vida actuales.
+	 */
 	public int getPuntosDeVida() {
 		return puntosDeVida;
 	}
 
+	/**
+	 * Actualiza los puntos de vida del recluta.
+	 * 
+	 * @param puntosDeVida Nuevo valor de puntos de vida.
+	 */
 	public void setPuntosDeVida(int puntosDeVida) {
 		this.puntosDeVida = puntosDeVida;
 	}
 
+	/**
+	 * Obtiene el nivel de resistencia o armadura del recluta.
+	 * 
+	 * @return Nivel de resistencia.
+	 */
 	public int getNivelResistencia() {
 		return nivelResistencia;
 	}
 
+	/**
+	 * Obtiene el arreglo con los tipos de ejércitos válidos.
+	 * 
+	 * @return Arreglo de {@link tipoEjercito}.
+	 */
 	public tipoEjercito[] getEjercitos() {
 		return ejercitos;
 	}
 
+	/**
+	 * Obtiene el tipo de ejército al que pertenece el recluta.
+	 * 
+	 * @return Tipo de ejército del recluta.
+	 */
 	public tipoEjercito getTipoRecluta() {
 		return this.tipoRecluta;
 	}
 
 	/**
-	 * Método responsable del interpretar el daño recibido por el oponente.
+	 * Método responsable de interpretar el daño recibido por el oponente.
 	 * 
 	 * @param danoOponente - Va recibido tras la tirada del oponente.
-	 * @return No devuelve un valor en sí, solamente modifica los puntos de vida del
-	 *         personaje si corresponde.
 	 */
-
 	public void interpretarDano(int danoOponente) {
 		int danoRealRecibido = danoOponente - getNivelResistencia();
 
@@ -93,38 +130,88 @@ public abstract class Personaje {
 		return tipoRecluta;
 	};
 
+	/**
+	 * Clase estática interna para la construcción paso a paso de objetos
+	 * {@link Personaje}.
+	 */
 	public static class Builder {
+
+		/** Nombre a asignar al personaje. */
 		String nombre;
+
+		/** Puntos de vida iniciales a asignar al personaje. */
 		int puntosDeVida;
+
+		/** Nivel de resistencia a asignar al personaje. */
 		int nivelResistencia;
+
+		/** Tipo de ejército a asignar al personaje. */
 		tipoEjercito tipoRecluta;
+
+		/** Tipo o clase específica de personaje a instanciar. */
 		String tipoPersonaje;
 
+		/**
+		 * Define el nombre del personaje.
+		 * 
+		 * @param nombre Nombre del personaje.
+		 * @return La propia instancia del Builder para encadenamiento.
+		 */
 		public Builder nombre(String nombre) {
 			this.nombre = nombre;
 			return this;
 		}
 
+		/**
+		 * Define los puntos de vida del personaje.
+		 * 
+		 * @param puntosDeVida Puntos de vida del personaje.
+		 * @return La propia instancia del Builder para encadenamiento.
+		 */
 		public Builder puntosDeVida(int puntosDeVida) {
 			this.puntosDeVida = puntosDeVida;
 			return this;
 		}
 
+		/**
+		 * Define el nivel de resistencia del personaje.
+		 * 
+		 * @param nivelResistencia Nivel de resistencia.
+		 * @return La propia instancia del Builder para encadenamiento.
+		 */
 		public Builder nivelResistencia(int nivelResistencia) {
 			this.nivelResistencia = nivelResistencia;
 			return this;
 		}
 
+		/**
+		 * Define el tipo de ejército al que pertenecerá el personaje.
+		 * 
+		 * @param tipoRecluta Tipo de ejército.
+		 * @return La propia instancia del Builder para encadenamiento.
+		 */
 		public Builder tipoRecluta(tipoEjercito tipoRecluta) {
 			this.tipoRecluta = tipoRecluta;
 			return this;
 		}
 
+		/**
+		 * Define la clase o subtipo específico del personaje.
+		 * 
+		 * @param tipoPersonaje Nombre del tipo de personaje (ej. "Elfo", "Orco").
+		 * @return La propia instancia del Builder para encadenamiento.
+		 */
 		public Builder tipoPersonaje(String tipoPersonaje) {
 			this.tipoPersonaje = tipoPersonaje;
 			return this;
 		}
 
+		/**
+		 * Construye y devuelve una instancia concreta de {@link Personaje} a través de
+		 * la factoría.
+		 * 
+		 * @return Nueva instancia de {@link Personaje}.
+		 */
 		public Personaje build() {
 			return PersonajeFactory.crear(this);
 		}

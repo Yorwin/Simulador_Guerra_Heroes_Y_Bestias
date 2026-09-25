@@ -57,10 +57,22 @@ public class RegistroCombates {
 		return combates;
 	}
 
+	/**
+	 * Indica si la guerra ha llegado a su fin.
+	 *
+	 * @return {@code true} si la guerra está finalizada; {@code false} en caso
+	 *         contrario.
+	 */
 	public boolean isGuerraFinalizada() {
 		return guerraFinalizada;
 	}
 
+	/**
+	 * Establece el estado de finalización de la guerra.
+	 *
+	 * @param guerraFinalizada {@code true} para marcar la guerra como concluida,
+	 *                         {@code false} para mantenerla activa.
+	 */
 	public void setGuerraFinalizada(boolean guerraFinalizada) {
 		this.guerraFinalizada = guerraFinalizada;
 	}
