@@ -2,6 +2,8 @@ package Ejercito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -87,13 +89,25 @@ class EjercitoTest {
 	@DisplayName("Obtener reclutas")
 	@Test
 	void obtenerReclutasTest() {
+		ArrayList<Heroe> reclutasEjercitoHeroeObtenido = ejercito.getReclutas();
+		Assertions.assertEquals(0, reclutasEjercitoHeroeObtenido.size());
 
+		ejercito.anadirRecluta(heroe);
+		reclutasEjercitoHeroeObtenido = ejercito.getReclutas();
+		Assertions.assertNotEquals(0, reclutasEjercitoHeroeObtenido.size());
+
+		Assertions.assertEquals(heroe, reclutasEjercitoHeroeObtenido.get(0));
 	}
 
 	@Tag("copiar-ejercito")
-	@DisplayName("copia-ejercito")
+	@DisplayName("Realizar copia ejercito")
 	@Test
 	void copiaEjercitoTest() {
+		Ejercito<Heroe> copiaEjercitoVacio = ejercito.copiar();
+		ejercito.anadirRecluta(heroe);
+		Ejercito<Heroe> copiaTrasAnadirUnHeroe = ejercito.copiar();
 
+		Assertions.assertEquals(0, copiaEjercitoVacio.length());
+		Assertions.assertTrue(copiaTrasAnadirUnHeroe.length() > 0);
 	}
 }

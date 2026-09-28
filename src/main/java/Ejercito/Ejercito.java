@@ -3,6 +3,11 @@ package Ejercito;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import Excepciones.ReclutaNoValidoException;
+import Personajes.Heroe;
+import Personajes.Personaje;
+import TiposYInterfaces.tipoEjercito;
+
 /**
  * Representa un ejercito compuesto por un conjunto de reclutas de tipo genérico
  * {@code T}.
@@ -62,7 +67,58 @@ public class Ejercito<T> {
 			throw new IllegalArgumentException("El recluta no puede ser nulo.");
 		}
 
+		try {
+			validarRecluta(recluta);
+		} catch (ReclutaNoValidoException e) {
+			LOGGER.warning(e.getMessage());
+		}
 		reclutas.add(recluta);
+	}
+
+	/**
+	 * Valida que un recluta tenga todos sus atributos correctamente informados
+	 * antes de ser añadido al ejército.
+	 * <p>
+	 * Comprueba, por este orden, que:
+	 * <ul>
+	 * <li>el nombre no sea nulo,</li>
+	 * <li>los puntos de vida sean mayores que 0,</li>
+	 * <li>el nivel de resistencia sea mayor que 0,</li>
+	 * <li>la especie (tipo de recluta) esté indicada,</li>
+	 * <li>el tipo de ejército esté indicado.</li>
+	 * </ul>
+	 * La validación se detiene en el primer atributo incorrecto.
+	 *
+	 * @param recluta recluta que se desea validar.
+	 * @throws IllegalArgumentException si alguno de los atributos del recluta es
+	 *                                  nulo o no cumple las reglas de validez, con
+	 *                                  un mensaje que indica el atributo
+	 *                                  incorrecto.
+	 */
+	private void validarRecluta(T recluta) throws ReclutaNoValidoException {
+
+		Personaje personaje = (Personaje) recluta;
+
+		if (personaje.getNombre() == null) {
+			throw new ReclutaNoValidoException("Es necesario que indiques el nombre de tu personaje");
+		}
+
+		if (personaje.getPuntosDeVida() <= 0) {
+			throw new ReclutaNoValidoException("Los puntos de vida deben ser mayores que 0");
+		}
+
+		if (personaje.getNivelResistencia() <= 0) {
+			throw new ReclutaNoValidoException("La resistencia del personaje debe ser mayor que 0");
+		}
+
+		if (personaje.getTipoRecluta() == null) {
+			throw new ReclutaNoValidoException("La especie de tu recluta debe estar indicada");
+		}
+
+		if (personaje.getTipoEjercito() == null) {
+			throw new ReclutaNoValidoException(
+					"El tipo de ejercito debe estar indicado y debe corresponder a los tipos disponibles");
+		}
 	}
 
 	/**

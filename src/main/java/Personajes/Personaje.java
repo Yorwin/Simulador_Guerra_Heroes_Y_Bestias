@@ -1,5 +1,8 @@
 package Personajes;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import TiposYInterfaces.tipoEjercito;
 
 /**
@@ -15,6 +18,11 @@ public abstract class Personaje {
 	protected final String nombre;
 
 	/**
+	 * Patrón del Nombre
+	 */
+	private static Pattern patron = Pattern.compile("^(?=.{2,30}$)[\\p{L}\\p{M}]+(?:[ '’-][\\p{L}\\p{M}]+)*$");
+
+	/**
 	 * Puntos de vida actuales del recluta.
 	 */
 	protected int puntosDeVida;
@@ -23,11 +31,6 @@ public abstract class Personaje {
 	 * Nivel de resistencia o armadura del recluta.
 	 */
 	protected final int nivelResistencia;
-
-	/**
-	 * Tipos de ejército válidos para clasificar a los reclutas.
-	 */
-	protected final tipoEjercito[] ejercitos = { tipoEjercito.HEROES, tipoEjercito.BESTIAS };
 
 	/**
 	 * Tipo de ejército al que pertenece el recluta.
@@ -80,15 +83,6 @@ public abstract class Personaje {
 	 */
 	public int getNivelResistencia() {
 		return nivelResistencia;
-	}
-
-	/**
-	 * Obtiene el arreglo con los tipos de ejércitos válidos.
-	 * 
-	 * @return Arreglo de {@link tipoEjercito}.
-	 */
-	public tipoEjercito[] getEjercitos() {
-		return ejercitos;
 	}
 
 	/**
@@ -152,14 +146,26 @@ public abstract class Personaje {
 		String tipoPersonaje;
 
 		/**
-		 * Define el nombre del personaje.
-		 * 
-		 * @param nombre Nombre del personaje.
+		 * Define el nombre del personaje, validándolo previamente con la expresión
+		 * regular de nombres.
+		 *
+		 * @param nombre Nombre del personaje. Debe tener entre 2 y 30 caracteres y
+		 *               contener solo letras, con espacios, guiones o apóstrofos entre
+		 *               palabras.
 		 * @return La propia instancia del Builder para encadenamiento.
+		 * @throws IllegalArgumentException si el nombre no cumple el formato permitido.
 		 */
-		public Builder nombre(String nombre) {
-			this.nombre = nombre;
-			return this;
+		public Builder nombre(String nombre) throws IllegalArgumentException {
+
+			Matcher matcherNombre = patron.matcher(nombre);
+
+			if (nombre != null && matcherNombre.matches()) {
+				this.nombre = nombre;
+				return this;
+			} else {
+				throw new IllegalArgumentException(
+						"Nombre no válido: usa solo letras (2-30 caracteres), con espacios, guiones o apóstrofos entre palabras.");
+			}
 		}
 
 		/**
