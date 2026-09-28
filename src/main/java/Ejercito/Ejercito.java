@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *            una subclase o implementación de {@link Personajes.Personaje})
  */
 public class Ejercito<T> {
-	
+
 	/**
 	 * Logger para registrar eventos y advertencias de la clase Ejercito.
 	 */
@@ -70,17 +70,13 @@ public class Ejercito<T> {
 	 *
 	 * @param recluta recluta que se desea retirar
 	 */
-	public void retirarRecluta(T recluta) {
-		try {
-			if (recluta == null) {
-				LOGGER.warning("Intento de remover un recluta nulo del ejército.");
-				return;
-			}
-
-			reclutas.remove(recluta);
-		} catch (Exception e) {
-			System.err.println("Ha ocurrido un error al intentar remover un recluta");
+	public boolean retirarRecluta(T recluta) {
+		if (recluta == null) {
+			LOGGER.warning("Intento de remover un recluta nulo del ejército.");
+			throw new IllegalArgumentException("El recluta no puede ser nulo.");
 		}
+
+		return reclutas.remove(recluta);
 	}
 
 	/**
@@ -93,20 +89,14 @@ public class Ejercito<T> {
 	 *                                   rango válido de la lista de reclutas
 	 */
 	public void cambiarOrden(int indiceActual, int nuevaPosicion) {
-		try {
-			if (indiceActual < 0 || indiceActual >= reclutas.size() || nuevaPosicion < 0
-					|| nuevaPosicion >= reclutas.size()) {
-				throw new IndexOutOfBoundsException("Se ha intentado acceder a un valor de la lista que no existe");
-			}
-			T personaje = reclutas.remove(indiceActual);
-			reclutas.add(nuevaPosicion, personaje);
+		if (indiceActual < 0 || indiceActual >= reclutas.size() || nuevaPosicion < 0
+				|| nuevaPosicion >= reclutas.size()) {
 
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.err.println("Error: El índice solicitado no existe en el arreglo.");
-			LOGGER.warning("Intento de acceso a índice fuera de rango: " + e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
+			throw new IndexOutOfBoundsException("Se ha intentado acceder a un valor de la lista que no existe");
 		}
+
+		T personaje = reclutas.remove(indiceActual);
+		reclutas.add(nuevaPosicion, personaje);
 	}
 
 	/**
