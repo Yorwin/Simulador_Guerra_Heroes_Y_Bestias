@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Excepciones.ReclutaNoValidoException;
-import Personajes.Heroe;
 import Personajes.Personaje;
-import TiposYInterfaces.tipoEjercito;
 
 /**
  * Representa un ejercito compuesto por un conjunto de reclutas de tipo genérico
