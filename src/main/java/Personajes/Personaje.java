@@ -2,8 +2,8 @@ package Personajes;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import TiposYInterfaces.tipoEjercito;
+import TiposYInterfaces.tipoPersonajes;
 
 /**
  * Clase abstracta que representa a un personaje/recluta dentro del juego.
@@ -173,8 +173,15 @@ public abstract class Personaje {
 		 * 
 		 * @param puntosDeVida Puntos de vida del personaje.
 		 * @return La propia instancia del Builder para encadenamiento.
+		 * @throws IllegalArgumentException si los puntos de vida no llegan a la
+		 *                                  cantidad minima.
 		 */
 		public Builder puntosDeVida(int puntosDeVida) {
+			if (puntosDeVida < 1) {
+				throw new IllegalArgumentException(
+						"Indica los puntos de vida de tu personaje, la puntuación minima es 1");
+			}
+
 			this.puntosDeVida = puntosDeVida;
 			return this;
 		}
@@ -184,8 +191,15 @@ public abstract class Personaje {
 		 * 
 		 * @param nivelResistencia Nivel de resistencia.
 		 * @return La propia instancia del Builder para encadenamiento.
+		 * @throws IllegalArgumentException si el nivel de resistencia de tu personaje
+		 *                                  no llega a la cantidad minima.
 		 */
 		public Builder nivelResistencia(int nivelResistencia) {
+			if (nivelResistencia < 1) {
+				throw new IllegalArgumentException(
+						"Indica el nivel de resistencia de tu personaje, la puntuación minima es 1");
+			}
+
 			this.nivelResistencia = nivelResistencia;
 			return this;
 		}
@@ -195,8 +209,14 @@ public abstract class Personaje {
 		 * 
 		 * @param tipoRecluta Tipo de ejército.
 		 * @return La propia instancia del Builder para encadenamiento.
+		 * @throws IllegalArgumentException si el tipo de recluta no es indicado.
 		 */
 		public Builder tipoRecluta(tipoEjercito tipoRecluta) {
+
+			if (tipoRecluta == null) {
+				throw new IllegalArgumentException("El tipo de recluta no puede ser nulo.");
+			}
+
 			this.tipoRecluta = tipoRecluta;
 			return this;
 		}
@@ -206,8 +226,16 @@ public abstract class Personaje {
 		 * 
 		 * @param tipoPersonaje Nombre del tipo de personaje (ej. "Elfo", "Orco").
 		 * @return La propia instancia del Builder para encadenamiento.
+		 * @throws IllegalArgumentException si el String utilizado no corresponde con
+		 *                                  ningún personaje o esta vacío.
 		 */
 		public Builder tipoPersonaje(String tipoPersonaje) {
+			if (tipoPersonaje == null || tipoPersonaje.isBlank()) {
+				throw new IllegalArgumentException("El tipo de personaje no puede estar vacío.");
+			}
+
+			tipoPersonajes.buscarPorEspecie(tipoPersonaje);
+
 			this.tipoPersonaje = tipoPersonaje;
 			return this;
 		}

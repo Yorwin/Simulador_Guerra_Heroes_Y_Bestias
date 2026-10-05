@@ -86,7 +86,7 @@ public class Ejercito<T> {
 	 * <li>el tipo de ejército esté indicado.</li>
 	 * </ul>
 	 * La validación se detiene en el primer atributo incorrecto.
-	 *
+	 * 
 	 * @param recluta recluta que se desea validar.
 	 * @throws IllegalArgumentException si alguno de los atributos del recluta es
 	 *                                  nulo o no cumple las reglas de validez, con
@@ -97,7 +97,7 @@ public class Ejercito<T> {
 
 		Personaje personaje = (Personaje) recluta;
 
-		if (personaje.getNombre() == null) {
+		if (personaje.getNombre() == null || personaje.getNombre().length() < 1) {
 			throw new ReclutaNoValidoException("Es necesario que indiques el nombre de tu personaje");
 		}
 

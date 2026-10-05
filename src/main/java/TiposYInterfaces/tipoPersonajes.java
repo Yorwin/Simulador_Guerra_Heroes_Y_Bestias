@@ -51,9 +51,9 @@ public enum tipoPersonajes implements Afectable {
 	 * modificaciones.</li>
 	 * </ul>
 	 *
-	 * @param enemigo    El personaje enemigo sobre el que se calcula la afectación;
-	 *                   se espera que sea una instancia de {@link Bestia}
-	 * @param danoBase   El daño base antes de aplicar cualquier afectación
+	 * @param enemigo  El personaje enemigo sobre el que se calcula la afectación;
+	 *                 se espera que sea una instancia de {@link Bestia}
+	 * @param danoBase El daño base antes de aplicar cualquier afectación
 	 * 
 	 * @return el daño final resultante tras aplicar las reglas de afectación según
 	 *         la especie
@@ -98,5 +98,24 @@ public enum tipoPersonajes implements Afectable {
 			throw new IllegalArgumentException(
 					"No has seleccionado la especie correctamente: 0 para Heroes, 1 para Bestias");
 		}
+	}
+
+	/**
+	 * Busca un tipo de personaje a partir del nombre de su especie.
+	 *
+	 * @param especie Nombre de la especie que se desea buscar.
+	 * @return El tipo de personaje que corresponde a la especie indicada.
+	 * @throws IllegalArgumentException Si la especie indicada no corresponde con
+	 *                                  ningún tipo de personaje válido.
+	 */
+	public static tipoPersonajes buscarPorEspecie(String especie) {
+		for (tipoPersonajes tipo : values()) {
+
+			if (tipo.getESPECIE().equals(especie)) {
+				return tipo;
+			}
+		}
+
+		throw new IllegalArgumentException("El tipo de personaje no es válido: " + especie);
 	}
 }
