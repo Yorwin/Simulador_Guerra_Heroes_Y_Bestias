@@ -8,16 +8,35 @@ import Personajes.Personaje;
  * aplica sobre sus características de combate.
  */
 public enum tipoPersonajes implements Afectable {
+
 	HUMANOS("Humano", 0), ELFOS("Elfo", 10), HOBBITS("Hobbit", -5), ORCOS("Orco", 10), TRASGOS("Trasgo", 0);
 
+	/**
+	 * Array con las especies que pueden pertenecer al ejército de héroes.
+	 */
+	private static final tipoPersonajes[] HEROES = { HUMANOS, ELFOS, HOBBITS };
+
+	/**
+	 * Array con las especies que pueden pertenecer al ejército de bestias.
+	 */
+	private static final tipoPersonajes[] BESTIAS = { ORCOS, TRASGOS };
+
+	/**
+	 * Nombre de la especie del personaje.
+	 */
 	private final String ESPECIE;
+
+	/**
+	 * Modificador que se aplica al daño o a la resistencia durante el combate,
+	 * según las reglas de afectación de cada especie.
+	 */
 	private final int EFECTO;
 
 	/**
 	 * Constructor de las especies disponibles para los personajes.
 	 *
 	 * @param especie nombre de la especie.
-	 * @param efecto  modificador de ataque que aplica la especie.
+	 * @param efecto  modificador que aplica la especie durante el combate.
 	 */
 	tipoPersonajes(String especie, int efecto) {
 		this.ESPECIE = especie;
@@ -25,9 +44,9 @@ public enum tipoPersonajes implements Afectable {
 	}
 
 	/**
-	 * Obtiene la especie del personaje.
-	 * 
-	 * @return la especie del personaje.
+	 * Obtiene el nombre de la especie del personaje.
+	 *
+	 * @return el nombre de la especie.
 	 */
 	public String getESPECIE() {
 		return ESPECIE;
@@ -51,15 +70,14 @@ public enum tipoPersonajes implements Afectable {
 	 * modificaciones.</li>
 	 * </ul>
 	 *
-	 * @param enemigo  El personaje enemigo sobre el que se calcula la afectación;
-	 *                 se espera que sea una instancia de {@link Bestia}
-	 * @param danoBase El daño base antes de aplicar cualquier afectación
-	 * 
-	 * @return el daño final resultante tras aplicar las reglas de afectación según
-	 *         la especie
+	 * @param enemigo  personaje enemigo sobre el que se calcula la afectación; se
+	 *                 espera que sea una instancia de {@link Bestia}.
+	 * @param danoBase daño base antes de aplicar cualquier afectación.
+	 *
+	 * @return el daño final resultante tras aplicar las reglas de afectación.
 	 */
 	@Override
-	public int aplicacionAfectacion(Personaje enemigo, int danoBase) {
+	public int aplicarAfectacion(Personaje enemigo, int danoBase) {
 		int danoFinal = danoBase;
 
 		if (this == ELFOS && ((Bestia) enemigo).getTipoPersonaje() == ORCOS) {
@@ -77,19 +95,22 @@ public enum tipoPersonajes implements Afectable {
 	}
 
 	/**
-	 * Obtiene las especies válidas en función del tipo de ejército seleccionado.
+	 * Indica las especies válidas en función del tipo de ejército seleccionado.
 	 * <p>
-	 * Si se seleccionan héroes ({@code 0}), devuelve las especies {@code HUMANOS},
-	 * {@code ELFOS} y {@code HOBBITS}. Si se seleccionan bestias ({@code 1}),
-	 * devuelve las especies {@code ORCOS} y {@code TRASGOS}.
+	 * Si se seleccionan héroes ({@code 0}), devuelve los nombres de las especies
+	 * {@code HUMANOS}, {@code ELFOS} y {@code HOBBITS}. Si se seleccionan bestias
+	 * ({@code 1}), devuelve los nombres de las especies {@code ORCOS} y
+	 * {@code TRASGOS}.
 	 *
 	 * @param especieDeseada valor que identifica el tipo de ejército: {@code 0}
 	 *                       para héroes y {@code 1} para bestias.
-	 * @return una cadena con las especies válidas separadas por comas.
+	 *
+	 * @return los nombres de las especies válidas separados por comas.
+	 *
 	 * @throws IllegalArgumentException si {@code especieDeseada} no es {@code 0} ni
 	 *                                  {@code 1}.
 	 */
-	public static String especiesValidas(int especieDeseada) {
+	public static String indicarEspeciesValidas(int especieDeseada) {
 		if (especieDeseada == 0) {
 			return String.join(", ", HUMANOS.ESPECIE, ELFOS.ESPECIE, HOBBITS.ESPECIE);
 		} else if (especieDeseada == 1) {
@@ -101,21 +122,21 @@ public enum tipoPersonajes implements Afectable {
 	}
 
 	/**
-	 * Busca un tipo de personaje a partir del nombre de su especie.
+	 * Obtiene las especies que pueden pertenecer al ejército de bestias.
 	 *
-	 * @param especie Nombre de la especie que se desea buscar.
-	 * @return El tipo de personaje que corresponde a la especie indicada.
-	 * @throws IllegalArgumentException Si la especie indicada no corresponde con
-	 *                                  ningún tipo de personaje válido.
+	 * @return array con las especies {@code ORCOS} y {@code TRASGOS}.
 	 */
-	public static tipoPersonajes buscarPorEspecie(String especie) {
-		for (tipoPersonajes tipo : values()) {
+	public static tipoPersonajes[] getTipoBestias() {
+		return BESTIAS;
+	}
 
-			if (tipo.getESPECIE().equals(especie)) {
-				return tipo;
-			}
-		}
-
-		throw new IllegalArgumentException("El tipo de personaje no es válido: " + especie);
+	/**
+	 * Obtiene las especies que pueden pertenecer al ejército de héroes.
+	 *
+	 * @return array con las especies {@code HUMANOS}, {@code ELFOS} y
+	 *         {@code HOBBITS}.
+	 */
+	public static tipoPersonajes[] getTipoHeroes() {
+		return HEROES;
 	}
 }

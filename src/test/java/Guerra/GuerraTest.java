@@ -20,9 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import Ejercito.Ejercito;
 import Guerra.Guerra.Combate;
 import Personajes.Bestia;
-import Personajes.Bestias;
 import Personajes.Heroe;
-import Personajes.Heroes;
 import Personajes.Personaje;
 import TiposYInterfaces.tipoEjercito;
 import TiposYInterfaces.tipoPersonajes;
@@ -43,8 +41,8 @@ class GuerraTest {
 		ejercitoBestias = new Ejercito<Bestia>();
 		registroCombates = new RegistroCombates();
 
-		long semilla = System.nanoTime();
-		random = new Random(semilla);
+		// Semilla fija para que los resultados sean reproducibles.
+		random = new Random(12345L);
 	}
 
 	// ---------- Tests con datos aleatorios ----------
@@ -71,6 +69,7 @@ class GuerraTest {
 	@MethodSource("combinacionesDeTamanos")
 	void todosLosTurnosTienenCombates(int numHeroes, int numBestias) {
 		rellenarEjercitos(numHeroes, numBestias);
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 		guerra.start();
 
@@ -86,10 +85,14 @@ class GuerraTest {
 	@MethodSource("combinacionesDeTamanos")
 	void losTurnosSonConsecutivos(int numHeroes, int numBestias) {
 		rellenarEjercitos(numHeroes, numBestias);
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 		guerra.start();
 
 		Set<Integer> turnos = registroCombates.getCombates().keySet();
+
+		assertFalse(turnos.isEmpty());
+
 		int primero = Collections.min(turnos);
 		int ultimo = Collections.max(turnos);
 
@@ -102,12 +105,13 @@ class GuerraTest {
 	@MethodSource("combinacionesDeTamanos")
 	void ningunCombateTieneParticipantesNulos(int numHeroes, int numBestias) {
 		rellenarEjercitos(numHeroes, numBestias);
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 		guerra.start();
 
-		registroCombates.getCombates().values().stream().flatMap(List::stream).forEach(c -> {
-			assertNotNull(c.getHeroe());
-			assertNotNull(c.getBestia());
+		registroCombates.getCombates().values().stream().flatMap(List::stream).forEach(combate -> {
+			assertNotNull(combate.getHeroe());
+			assertNotNull(combate.getBestia());
 		});
 	}
 
@@ -117,8 +121,9 @@ class GuerraTest {
 	@DisplayName("El registro está vacío antes de iniciar la guerra")
 	@Test
 	void registroVacioAntesDeIniciarLaGuerra() {
-		ejercitoHeroes.anadirRecluta(crearHeroe("Heroe", 100, 50));
-		ejercitoBestias.anadirRecluta(crearBestia("Bestia", 100, 50));
+		ejercitoHeroes.anadirRecluta(crearHeroe("Heroe", 10, 2));
+		ejercitoBestias.anadirRecluta(crearBestia("Bestia", 10, 2));
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 
 		assertTrue(guerra.getRegistroCombates().isEmpty());
@@ -128,8 +133,9 @@ class GuerraTest {
 	@DisplayName("Un héroe muy fuerte contra una bestia débil termina en un turno")
 	@Test
 	void heroeMuyFuerteContraBestiaDebilTerminaEnUnTurno() {
-		ejercitoHeroes.anadirRecluta(crearHeroe("Heroe fuerte", 1000, 100));
-		ejercitoBestias.anadirRecluta(crearBestia("Bestia debil", 1, 1));
+		ejercitoHeroes.anadirRecluta(crearHeroe("Heroe fuerte", 20, 1));
+		ejercitoBestias.anadirRecluta(crearBestia("Bestia debil", 1, 0));
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 		guerra.start();
 
@@ -143,8 +149,9 @@ class GuerraTest {
 	@DisplayName("El registro contiene los nombres de los participantes")
 	@Test
 	void elRegistroContieneLosNombresDeLosParticipantes() {
-		ejercitoHeroes.anadirRecluta(crearHeroe("Aragorn", 1000, 100));
-		ejercitoBestias.anadirRecluta(crearBestia("Shrek", 1, 1));
+		ejercitoHeroes.anadirRecluta(crearHeroe("Aragorn", 20, 1));
+		ejercitoBestias.anadirRecluta(crearBestia("Shrek", 1, 0));
+
 		guerra = new Guerra(ejercitoHeroes, ejercitoBestias, registroCombates);
 		guerra.start();
 
@@ -162,7 +169,7 @@ class GuerraTest {
 		}
 
 		for (int i = 0; i < numBestias; i++) {
-			ejercitoBestias.anadirRecluta(crearBestiasAleatorio(i));
+			ejercitoBestias.anadirRecluta(crearBestiaAleatoria(i));
 		}
 	}
 
@@ -187,28 +194,30 @@ class GuerraTest {
 		return min + random.nextInt(max - min + 1);
 	}
 
-	// Factorías aleatorias
+	// Factorías aleatorias con atributos bajos.
+
 	private Heroe crearHeroeAleatorio(int i) {
-		return (Heroe) new Personaje.Builder().nombre("Heroe " + (char) ('A' + i)).puntosDeVida(entre(50, 200))
-				.nivelResistencia(entre(30, 100)).tipoPersonaje(elegirAleatorio(Heroes.getTIPOS_DE_HEROES()))
+		return (Heroe) new Personaje.Builder().nombre("Heroe " + (char) ('A' + i)).puntosDeVida(entre(10, 20))
+				.nivelResistencia(entre(1, 3)).tipoPersonaje(elegirAleatorio(tipoPersonajes.getTipoHeroes()))
 				.tipoRecluta(tipoEjercito.HEROES).build();
 	}
 
-	private Bestia crearBestiasAleatorio(int i) {
-		return (Bestia) new Personaje.Builder().nombre("Bestia " + (char) ('A' + i)).puntosDeVida(entre(50, 200))
-				.nivelResistencia(entre(30, 100)).tipoPersonaje(elegirAleatorio(Bestias.getTIPOS_DE_BESTIAS()))
+	private Bestia crearBestiaAleatoria(int i) {
+		return (Bestia) new Personaje.Builder().nombre("Bestia " + (char) ('A' + i)).puntosDeVida(entre(10, 20))
+				.nivelResistencia(entre(1, 3)).tipoPersonaje(elegirAleatorio(tipoPersonajes.getTipoBestias()))
 				.tipoRecluta(tipoEjercito.BESTIAS).build();
 	}
 
-	// Factorías con valores fijos (tipo siempre el primero, para que sea
-	// reproducible)
+	// Factorías con valores fijos.
+
 	private Heroe crearHeroe(String nombre, int vida, int resistencia) {
 		return (Heroe) new Personaje.Builder().nombre(nombre).puntosDeVida(vida).nivelResistencia(resistencia)
-				.tipoPersonaje(elegirPrimero(Heroes.getTIPOS_DE_HEROES())).tipoRecluta(tipoEjercito.HEROES).build();
+				.tipoPersonaje(elegirPrimero(tipoPersonajes.getTipoHeroes())).tipoRecluta(tipoEjercito.HEROES).build();
 	}
 
 	private Bestia crearBestia(String nombre, int vida, int resistencia) {
 		return (Bestia) new Personaje.Builder().nombre(nombre).puntosDeVida(vida).nivelResistencia(resistencia)
-				.tipoPersonaje(elegirPrimero(Bestias.getTIPOS_DE_BESTIAS())).tipoRecluta(tipoEjercito.BESTIAS).build();
+				.tipoPersonaje(elegirPrimero(tipoPersonajes.getTipoBestias())).tipoRecluta(tipoEjercito.BESTIAS)
+				.build();
 	}
 }

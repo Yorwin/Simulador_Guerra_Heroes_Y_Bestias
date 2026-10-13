@@ -22,5 +22,5 @@ public interface Afectable {
 	 * @return el daño final infligido al enemigo, una vez aplicado el efecto
 	 *         correspondiente.
 	 */
-	int aplicacionAfectacion(Personaje enemigo, int danoBase);
+	int aplicarAfectacion(Personaje enemigo, int danoBase);
 }

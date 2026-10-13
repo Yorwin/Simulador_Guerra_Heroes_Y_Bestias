@@ -1,8 +1,7 @@
 package Ejecucion;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,7 +10,6 @@ import java.util.concurrent.Future;
 import Ejercito.Ejercito;
 import Guerra.Guerra;
 import Guerra.RegistroCombates;
-import Guerra.Guerra.Combate;
 import Guerra.InterpretadorGuerra;
 import Personajes.Bestia;
 import Personajes.Heroe;
@@ -52,7 +50,7 @@ public class Main {
 
 		Heroe heroe1;
 		try {
-			heroe1 = (Heroe) new Personaje.Builder().nombre("Legolas").puntosDeVida(100).nivelResistencia(35)
+			heroe1 = (Heroe) new Personaje.Builder().nombre("Legolas").puntosDeVida(100).nivelResistencia(15)
 					.tipoPersonaje("Elfo").tipoRecluta(tipoEjercito.HEROES).build();
 			ejercitoHeroes.anadirRecluta(heroe1);
 		} catch (Exception e) {
@@ -61,7 +59,7 @@ public class Main {
 
 		Heroe heroe2;
 		try {
-			heroe2 = (Heroe) new Personaje.Builder().nombre("Aragorn").puntosDeVida(120).nivelResistencia(40)
+			heroe2 = (Heroe) new Personaje.Builder().nombre("Aragorn").puntosDeVida(90).nivelResistencia(20)
 					.tipoPersonaje("Humano").tipoRecluta(tipoEjercito.HEROES).build();
 			ejercitoHeroes.anadirRecluta(heroe2);
 		} catch (Exception e) {
@@ -70,7 +68,7 @@ public class Main {
 
 		Heroe heroe3;
 		try {
-			heroe3 = (Heroe) new Personaje.Builder().nombre("Bilbo").puntosDeVida(80).nivelResistencia(25)
+			heroe3 = (Heroe) new Personaje.Builder().nombre("Bilbo").puntosDeVida(50).nivelResistencia(5)
 					.tipoPersonaje("Hobbit").tipoRecluta(tipoEjercito.HEROES).build();
 			ejercitoHeroes.anadirRecluta(heroe3);
 		} catch (Exception e) {
@@ -92,7 +90,7 @@ public class Main {
 
 		Bestia bestia2;
 		try {
-			bestia2 = (Bestia) new Personaje.Builder().nombre("Grishnak").puntosDeVida(110).nivelResistencia(38)
+			bestia2 = (Bestia) new Personaje.Builder().nombre("Grishnak").puntosDeVida(140).nivelResistencia(38)
 					.tipoPersonaje("Orco").tipoRecluta(tipoEjercito.BESTIAS).build();
 			ejercitoBestias.anadirRecluta(bestia2);
 		} catch (Exception e) {

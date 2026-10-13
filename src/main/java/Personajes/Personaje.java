@@ -3,7 +3,6 @@ package Personajes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import TiposYInterfaces.tipoEjercito;
-import TiposYInterfaces.tipoPersonajes;
 
 /**
  * Clase abstracta que representa a un personaje/recluta dentro del juego.
@@ -20,7 +19,7 @@ public abstract class Personaje {
 	/**
 	 * Patrón del Nombre
 	 */
-	private static Pattern patron = Pattern.compile("^(?=.{2,30}$)[\\p{L}\\p{M}]+(?:[ '’-][\\p{L}\\p{M}]+)*$");
+	protected static Pattern patron = Pattern.compile("^(?=.{2,30}$)[\\p{L}\\p{M}]+(?:[ '’-][\\p{L}\\p{M}]+)*$");
 
 	/**
 	 * Puntos de vida actuales del recluta.
@@ -47,6 +46,32 @@ public abstract class Personaje {
 		this.puntosDeVida = builder.puntosDeVida;
 		this.nivelResistencia = builder.nivelResistencia;
 		this.tipoRecluta = builder.tipoRecluta;
+	}
+
+	/**
+	 * Constructor que inicializa un personaje a partir del Builder de un héroe.
+	 *
+	 * @param builder instancia del Builder con los datos del héroe que se va a
+	 *                construir.
+	 */
+	public Personaje(Heroe.Builder builder) {
+		this.nombre = builder.getNombre();
+		this.puntosDeVida = builder.getPuntosDeVida();
+		this.nivelResistencia = builder.getNivelDeResistencia();
+		this.tipoRecluta = tipoEjercito.HEROES;
+	}
+
+	/**
+	 * Constructor que inicializa un personaje a partir del Builder de una bestia.
+	 *
+	 * @param builder instancia del Builder con los datos de la bestia que se va a
+	 *                construir.
+	 */
+	public Personaje(Bestia.Builder builder) {
+		this.nombre = builder.getNombre();
+		this.puntosDeVida = builder.getPuntosDeVida();
+		this.nivelResistencia = builder.getNivelDeResistencia();
+		this.tipoRecluta = tipoEjercito.BESTIAS;
 	}
 
 	/**
@@ -195,9 +220,8 @@ public abstract class Personaje {
 		 *                                  no llega a la cantidad minima.
 		 */
 		public Builder nivelResistencia(int nivelResistencia) {
-			if (nivelResistencia < 1) {
-				throw new IllegalArgumentException(
-						"Indica el nivel de resistencia de tu personaje, la puntuación minima es 1");
+			if (nivelResistencia < 0) {
+				throw new IllegalArgumentException("El nivel de resistencia no puede ser negativo.");
 			}
 
 			this.nivelResistencia = nivelResistencia;
@@ -226,15 +250,12 @@ public abstract class Personaje {
 		 * 
 		 * @param tipoPersonaje Nombre del tipo de personaje (ej. "Elfo", "Orco").
 		 * @return La propia instancia del Builder para encadenamiento.
-		 * @throws IllegalArgumentException si el String utilizado no corresponde con
-		 *                                  ningún personaje o esta vacío.
+		 * @throws IllegalArgumentException si el String utilizado esta vacío o es null.
 		 */
 		public Builder tipoPersonaje(String tipoPersonaje) {
 			if (tipoPersonaje == null || tipoPersonaje.isBlank()) {
 				throw new IllegalArgumentException("El tipo de personaje no puede estar vacío.");
 			}
-
-			tipoPersonajes.buscarPorEspecie(tipoPersonaje);
 
 			this.tipoPersonaje = tipoPersonaje;
 			return this;

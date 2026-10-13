@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Ejecucion"},{"l":"Ejercito"},{"l":"Guerra"},{"l":"Personajes"},{"l":"TiposYInterfaces"}];updateSearchResults();
