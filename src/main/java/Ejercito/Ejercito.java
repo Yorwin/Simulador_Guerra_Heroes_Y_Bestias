@@ -123,6 +123,7 @@ public class Ejercito<T> {
 	 * Retira (elimina) un recluta del ejercito.
 	 *
 	 * @param recluta recluta que se desea retirar
+	 * @return devuelve si el recluta pudo o no ser retirado correctamente.
 	 */
 	public boolean retirarRecluta(T recluta) {
 		if (recluta == null) {

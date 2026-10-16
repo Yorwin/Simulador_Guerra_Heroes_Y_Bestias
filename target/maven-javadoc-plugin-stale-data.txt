@@ -1,0 +1,55 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/yorwi/.m2/repository/org/apache/commons/commons-text/1.13.1/commons-text-1.13.1.jar;C:/Users/yorwi/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/yorwi/Documents/Proyectos/curso-java/Simulador_Guerra_Heroes_Y_Bestias/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/yorwi/Documents/Proyectos/curso-java/Simulador_Guerra_Heroes_Y_Bestias/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Simulador_Guerra_Heroes_Y_Bestias 0.0.1-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Simulador_Guerra_Heroes_Y_Bestias 0.0.1-SNAPSHOT API'
+Ejecucion
+Ejercito
+Excepciones
+Guerra
+Personajes
+TiposYInterfaces
+C:\Users\yorwi\.m2\repository\org\apache\commons\commons-text\1.13.1\commons-text-1.13.1.jar = 1789987339031
+C:\Users\yorwi\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar = 1776700249856
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\src\main\java = 1790615115970
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\allclasses-index.html = 1792157951966
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\allpackages-index.html = 1792157951969
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\element-list = 1792157951832
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\help-doc.html = 1792157951998
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\index-all.html = 1792157951992
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\index.html = 1792157951953
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\jquery-ui.overrides.css = 1792157952024
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\member-search-index.js = 1792157951975
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\module-search-index.js = 1792157951970
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\overview-summary.html = 1792157951995
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\overview-tree.html = 1792157951951
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\package-search-index.js = 1792157951971
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\script.js = 1792157952001
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\search.js = 1792157952003
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\serialized-form.html = 1792157951881
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\stylesheet.css = 1792157952000
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\tag-search-index.js = 1792157951976
+C:\Users\yorwi\Documents\Proyectos\curso-java\Simulador_Guerra_Heroes_Y_Bestias\target\reports\apidocs\type-search-index.js = 1792157951973

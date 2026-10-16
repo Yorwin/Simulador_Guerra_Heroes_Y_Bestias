@@ -122,7 +122,7 @@ public class Main {
 			System.out.println("- " + ejercitoBestias.getReclutas().get(i).getNombre());
 		}
 		System.out.println("Total bestias: " + ejercitoBestias.length());
-
+		
 		// ----------------------------------------------------
 		// Prueba Guerra
 		// ----------------------------------------------------
